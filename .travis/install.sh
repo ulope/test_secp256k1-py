@@ -54,7 +54,7 @@ if [[ $TRAVIS_OS_NAME == "osx" ]]; then
 			;;
 		3.4|3.5)
 			python=/Library/Frameworks/Python.framework/Versions/${TRAVIS_PYTHON_VERSION}/bin/python3
-			virtualenv=pyvenv
+			virtualenv=venv
 			;;
 	esac
 
@@ -69,9 +69,6 @@ if [[ $TRAVIS_OS_NAME == "osx" ]]; then
   	${python} -m ${virtualenv} ~/virtualenv/python${TRAVIS_PYTHON_VERSION}
   	source ~/virtualenv/python${TRAVIS_PYTHON_VERSION}/bin/activate
 fi
-
-# XXX: Remove after debugging
-exit 0
 
 # Build lib-secp256k1 to test non bundled installation
 if [[ $BUNDLED -eq 0 ]]; then
