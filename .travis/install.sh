@@ -79,3 +79,5 @@ if [[ $BUNDLED -eq 0 ]]; then
 	  make
 	  popd
 fi
+
+set +x
