@@ -27,7 +27,7 @@ if [[ $TRAVIS_OS_NAME == "osx" ]]; then
 	done
 
 	mkdir -p ~/.cache/python-dl
-	cd ~/.cache/python-dl
+	builtin cd ~/.cache/python-dl
 
 	py_pkg=${PYTHON_PKG_${TRAVIS_PYTHON_VERSION//./}}
 
@@ -37,6 +37,8 @@ if [[ $TRAVIS_OS_NAME == "osx" ]]; then
 	fi
 
 	sudo installer -pkg $(basename ${py_pkg}) -target /
+
+	builtin cd
 
 	case "${TRAVIS_PYTHON_VERSION}" in
 		2.7)
