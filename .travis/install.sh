@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+#set -e
 set -x
 
 # On osx we need to bring our own Python.
