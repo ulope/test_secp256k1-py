@@ -7,11 +7,14 @@ set -x
 # See: https://github.com/travis-ci/travis-ci/issues/2312
 if [[ $TRAVIS_OS_NAME == "osx" ]]; then
 
-	PYTHON_PKG_2.7=https://www.python.org/ftp/python/2.7.12/python-2.7.12-macosx10.6.pkg
-	PYTHON_PKG_3.3=http://www.python.org/ftp/python/3.3.5/python-3.3.5-macosx10.6.dmg
-	PYTHON_PKG_3.4=https://www.python.org/ftp/python/3.4.4/python-3.4.4-macosx10.6.pkg
-	PYTHON_PKG_3.5=https://www.python.org/ftp/python/3.5.2/python-3.5.2-macosx10.6.pkg
-	GET_PIP=https://bootstrap.pypa.io/get-pip.py
+	# We use the official python.org installers to make sure our wheels are
+	# going to be as widely compatible as possible
+	declare -A PYTHON_PKG
+	PYTHON_PKG[2.7]="https://www.python.org/ftp/python/2.7.12/python-2.7.12-macosx10.6.pkg"
+	PYTHON_PKG[3.3]="http://www.python.org/ftp/python/3.3.5/python-3.3.5-macosx10.6.dmg"
+	PYTHON_PKG[3.4]="https://www.python.org/ftp/python/3.4.4/python-3.4.4-macosx10.6.pkg"
+	PYTHON_PKG[3.5]="https://www.python.org/ftp/python/3.5.2/python-3.5.2-macosx10.6.pkg"
+	GET_PIP="https://bootstrap.pypa.io/get-pip.py"
 
   	# update brew
   	brew update || brew update
@@ -27,7 +30,7 @@ if [[ $TRAVIS_OS_NAME == "osx" ]]; then
 	mkdir -p ~/.cache/python-dl
 	cd ~/.cache/python-dl
 
-	py_pkg=${PYTHON_PKG_${TRAVIS_PYTHON_VERSION}}
+	py_pkg=${PYTHON_PKG[${TRAVIS_PYTHON_VERSION}]}
 
 	# The package might have been cached from a previous run
 	if [[ ! -f $(basename ${py_pkg}) ]]; then
@@ -63,6 +66,8 @@ if [[ $TRAVIS_OS_NAME == "osx" ]]; then
   	source ~/virtualenv/python${TRAVIS_PYTHON_VERSION}/bin/activate
 fi
 
+# XXX: Remove after debugging
+exit 0
 
 # Build lib-secp256k1 to test non bundled installation
 if [[ $BUNDLED -eq 0 ]]; then
