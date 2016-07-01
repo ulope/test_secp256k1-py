@@ -6,6 +6,13 @@ set -x
 # On osx we need to bring our own Python.
 # See: https://github.com/travis-ci/travis-ci/issues/2312
 if [[ $TRAVIS_OS_NAME == "osx" ]]; then
+
+	PYTHON_PKG_2.7=https://www.python.org/ftp/python/2.7.12/python-2.7.12-macosx10.6.pkg
+	PYTHON_PKG_3.3=http://www.python.org/ftp/python/3.3.5/python-3.3.5-macosx10.6.dmg
+	PYTHON_PKG_3.4=https://www.python.org/ftp/python/3.4.4/python-3.4.4-macosx10.6.pkg
+	PYTHON_PKG_3.5=https://www.python.org/ftp/python/3.5.2/python-3.5.2-macosx10.6.pkg
+	GET_PIP=https://bootstrap.pypa.io/get-pip.py
+
   	# update brew
   	brew update || brew update
 
@@ -13,41 +20,48 @@ if [[ $TRAVIS_OS_NAME == "osx" ]]; then
   	brew outdated openssl || brew upgrade openssl
 
 	# Install packages needed to build lib-secp256k1
-	brew install automake libtool pkg-config libffi gmp
+	for pkg in automake libtool pkg-config libffi gmp; do
+		brew upgrade $pkg || brew install $pkg
+	done
 
-  	# install pyenv
-  	git clone https://github.com/yyuu/pyenv.git ~/.pyenv
-  	PYENV_ROOT="$HOME/.pyenv"
-  	PATH="$PYENV_ROOT/bin:$PATH"
-  	PYTHON_CONFIGURE_OPTS="--enable-framework"
-  	eval "$(pyenv init -)"
+	mkdir -p ~/.cache/python-dl
+	cd ~/.cache/python-dl
 
-  	case "${TRAVIS_PYTHON_VERSION}" in
-  		2.7)
-  			curl -O https://bootstrap.pypa.io/get-pip.py
-  			python get-pip.py --user
-  			;;
-  		3.3)
-  			pyenv install 3.3.6
-  			pyenv global 3.3.6
-  			;;
-  		3.4)
-  			pyenv install 3.4.4
-  			pyenv global 3.4.4
-  			;;
-  		3.5)
-  			pyenv install 3.5.2
-  			pyenv global 3.5.2
-  			;;
-  	esac
-  	pyenv rehash
-  	python -m pip install --user virtualenv
+	py_pkg=${PYTHON_PKG_${TRAVIS_PYTHON_VERSION}}
+
+	# The package might have been cached from a previous run
+	if [[ ! -f $(basename ${py_pkg}) ]]; then
+		curl -O ${py_pkg}
+	fi
+
+	sudo installer -pkg $(basename ${py_pkg}) -target /
+
+	case "${TRAVIS_PYTHON_VERSION}" in
+		2.7)
+			python=/Library/Frameworks/Python.framework/Versions/${TRAVIS_PYTHON_VERSION}/bin/python
+			virtualenv=virtualenv
+			;;
+		3.3)
+			python=/Library/Frameworks/Python.framework/Versions/${TRAVIS_PYTHON_VERSION}/bin/python3
+			virtualenv=virtualenv
+			;;
+		3.4|3.5)
+			python=/Library/Frameworks/Python.framework/Versions/${TRAVIS_PYTHON_VERSION}/bin/python3
+			virtualenv=pyvenv
+			;;
+	esac
+
+	if [[ "${TRAVIS_PYTHON_VERSION}" == "2.7" || "${TRAVIS_PYTHON_VERSION}" == "2.7" ]]; then
+		curl -O ${GET_PIP}
+		${python} get-pip.py
+		${python} -m pip install --user virtualenv
+	fi
+
+
+  	mkdir ~/virtualenv
+  	${python} -m ${virtualenv} ~/virtualenv/python${TRAVIS_PYTHON_VERSION}
+  	source ~/virtualenv/python${TRAVIS_PYTHON_VERSION}/bin/activate
 fi
-
-
-python -m virtualenv ~/.venv
-source ~/.venv/bin/activate
-pip install tox codecov
 
 
 # Build lib-secp256k1 to test non bundled installation
