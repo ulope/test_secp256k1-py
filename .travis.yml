@@ -1,21 +1,46 @@
 language: python
+sudo: false
 
 python:
   - "2.7"
   - "3.3"
   - "3.4"
+  - "3.5"
 
 env:
   global:
     - LD_LIBRARY_PATH=./libsecp256k1_ext/.libs
     - LIB_DIR=./libsecp256k1_ext/.libs
     - INCLUDE_DIR=./libsecp256k1_ext/include
+    - PYPI_USERNAME=test_secp_deploy
+    - secure: "nKnv54XfRwJLwa0wFZRp+bknXbnPoRSgoRAICupDB7mPSIbRoO7p9qHAcwYK9detEpl3mWE95817EAlPH78PxfBqfnqjPqGemAM0hMaPR6F2W3z2n5z8LxBmMrPEj62U1q+z7vyOvijNIx8QNW9CUHX8obWpwxVog/StljcjLAkiMLQmZSv9xi1wRvWdPXw8+O4QdHVuKo7aVHz2sSW5asR9JqlwC+ww7vP0OHRAjKXM3X8lxHUGNHpsWx5YPrSs05jyUe0CJeSdP9rEWk9JGgoZ7rfEVucIQsM9KLHAJqeiNAOyDcPBst51CyPgWpolbZuqsLmYvxRWL8ir0J6GKhUI+PF9Lg6wFgf8cZ9uDKakQhn/lqgwZYalPfhf4AZ389xbLT4Zvk7y/yVVAPU4j0iLwepa4K79UTtq5cvfR5PeNa+ptqHdY8EQh5hbyrGri8xLaKjgxFeEkt1m6mSoJIVjfhJ9Y6D70a08cKaOUhCTsScG3y7a9KsLx9uEIxoDTje8KLekPRK3zaClvYuiVowFb2nenKbRNQ+DIywmJySdIiDMqrGfYewSPv2qynWmLw3q6ov0sfznL6KwlNskeiX166/q9/QtFotlM66gsDKyy49wXaPgK4t2/kF3Wi9IjC5m2alK6TGd/Mu3C6S2q4m0MokLLrx0YjfZNA6YVPw="
   matrix:
     - BUNDLED=0
     - BUNDLED=1
     - BUNDLED=1 SECP_BUNDLED_EXPERIMENTAL=1
 
-sudo: false
+matrix:
+  include:
+    - os: osx
+      language: generic
+      osx_image: xcode7.1
+      env:
+        - TRAVIS_PYTHON_VERSION=2.7
+    - os: osx
+      language: generic
+      osx_image: xcode7.1
+      env:
+        - TRAVIS_PYTHON_VERSION=3.3
+    - os: osx
+      language: generic
+      osx_image: xcode7.1
+      env:
+        - TRAVIS_PYTHON_VERSION=3.4
+    - os: osx
+      language: generic
+      osx_image: xcode7.1
+      env:
+        - TRAVIS_PYTHON_VERSION=3.5
 
 addons:
   apt:
@@ -29,24 +54,36 @@ addons:
       - libgmp-dev
 
 before_install:
-  - ./travis_install.sh
-  - pip install -U pip setuptools cffi pytest coverage coveralls
+  - source .travis/install.sh
+  - python --version
+  - python -m pip install -U setuptools cffi pytest coverage coveralls
 
 install:
-  - python setup.py install
+  - env
+  - python --version
+  #- python setup.py install
 
 # This is a bit of a hack:
 # We want to ensure that we test the installed version, not the local source.
 # For that reason we rename the local source directory before running the
 # tests.
 # Unfortunately this compilcates using coverage. We use '--parallel' and
-# 'combine' to massage it into producing correct paths. For that to work
-# we need to re-rename the source back to it's correct name.
+# 'combine' together with the `paths` setting in '.coveragerc' to massage it
+# into producing correct paths. For that to work we need to re-rename the
+# source back to it's correct name.
 script:
-  - mv secp256k1 _secp256k1
-  - coverage run --parallel --include="*/site-packages/*.egg/secp256k1/*" -m py.test
-  - mv _secp256k1 secp256k1
-  - coverage combine
+   - env
+   - python --version
+#  - mv secp256k1 _secp256k1
+#  - coverage run --parallel --include="*/site-packages/*.egg/secp256k1/*" -m py.test
+#  - mv _secp256k1 secp256k1
+#  - coverage combine
 
-after_success:
-  - coveralls
+#after_success:
+#  - coveralls
+
+deploy:
+  provider: script
+  script: .travis/deploy.sh
+#  on:
+#    tags: true
