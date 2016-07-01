@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#set -e
+set -e
 set -x
 
 # On osx we need to bring our own Python.
@@ -31,7 +31,7 @@ if [[ $TRAVIS_OS_NAME == "osx" ]]; then
 	# Travis has some funky cd hooks that fuck shit up
 	builtin cd ~/.cache/python-dl
 
-	py_pkg=PYTHON_PKG_${TRAVIS_PYTHON_VERSION//./}
+	py_pkg=$PYTHON_PKG_${TRAVIS_PYTHON_VERSION//./}
 
 	# The package might have been cached from a previous run
 	if [[ ! -f $(basename ${py_pkg}) ]]; then
