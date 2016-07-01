@@ -23,13 +23,15 @@ if [[ $TRAVIS_OS_NAME == "osx" ]]; then
 
 	# Install packages needed to build lib-secp256k1
 	for pkg in automake libtool pkg-config libffi gmp; do
-		brew upgrade $pkg || brew install $pkg
+		brew list $pkg > /dev/null || brew install $pkg
+		brew outdated --quiet $pkg || brew upgrade $pkg
 	done
 
 	mkdir -p ~/.cache/python-dl
+	# Travis has some funky cd hooks that fuck shit up
 	builtin cd ~/.cache/python-dl
 
-	py_pkg=${PYTHON_PKG_${TRAVIS_PYTHON_VERSION//./}}
+	py_pkg=PYTHON_PKG_${TRAVIS_PYTHON_VERSION//./}
 
 	# The package might have been cached from a previous run
 	if [[ ! -f $(basename ${py_pkg}) ]]; then
