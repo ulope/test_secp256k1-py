@@ -36,82 +36,82 @@ matrix:
       env:
         - TRAVIS_PYTHON_VERSION=2.7
         - BUNDLED=0
-    - os: osx
-      language: generic
-      osx_image: xcode7.1
-      python: 2.7
-      env:
-        - TRAVIS_PYTHON_VERSION=2.7
-        - BUNDLED=1
-    - os: osx
-      language: generic
-      osx_image: xcode7.1
-      python: 2.7
-      env:
-        - TRAVIS_PYTHON_VERSION=2.7
-        - BUNDLED=1
-        - SECP_BUNDLED_EXPERIMENTAL=1
-
-    - os: osx
-      language: generic
-      osx_image: xcode7.1
-      python: 3.3
-      env:
-        - TRAVIS_PYTHON_VERSION=3.3
-        - BUNDLED=0
-    - os: osx
-      language: generic
-      osx_image: xcode7.1
-      python: 3.3
-      env:
-        - TRAVIS_PYTHON_VERSION=3.3
-        - BUNDLED=1
-    - os: osx
-      language: generic
-      osx_image: xcode7.1
-      python: 3.3
-      env:
-        - TRAVIS_PYTHON_VERSION=3.3
-        - BUNDLED=1
-        - SECP_BUNDLED_EXPERIMENTAL=1
-
-    - os: osx
-      language: generic
-      osx_image: xcode7.1
-      python: 3.4
-      env:
-        - TRAVIS_PYTHON_VERSION=3.4
-        - BUNDLED=0
-    - os: osx
-      language: generic
-      osx_image: xcode7.1
-      python: 3.4
-      env:
-        - TRAVIS_PYTHON_VERSION=3.4
-        - BUNDLED=1
-    - os: osx
-      language: generic
-      osx_image: xcode7.1
-      python: 3.4
-      env:
-        - TRAVIS_PYTHON_VERSION=3.4
-        - BUNDLED=1
-        - SECP_BUNDLED_EXPERIMENTAL=1
-
-    - os: osx
-      language: generic
-      osx_image: xcode7.1
-      python: 3.5
-      env:
-        - TRAVIS_PYTHON_VERSION=3.5
-        - BUNDLED=0
-    - os: osx
-      language: generic
-      osx_image: xcode7.1
-      python: 3.5
-      env:
-        - TRAVIS_PYTHON_VERSION=3.5
-        - BUNDLED=1
+#    - os: osx
+#      language: generic
+#      osx_image: xcode7.1
+#      python: 2.7
+#      env:
+#        - TRAVIS_PYTHON_VERSION=2.7
+#        - BUNDLED=1
+#    - os: osx
+#      language: generic
+#      osx_image: xcode7.1
+#      python: 2.7
+#      env:
+#        - TRAVIS_PYTHON_VERSION=2.7
+#        - BUNDLED=1
+#        - SECP_BUNDLED_EXPERIMENTAL=1
+#
+#    - os: osx
+#      language: generic
+#      osx_image: xcode7.1
+#      python: 3.3
+#      env:
+#        - TRAVIS_PYTHON_VERSION=3.3
+#        - BUNDLED=0
+#    - os: osx
+#      language: generic
+#      osx_image: xcode7.1
+#      python: 3.3
+#      env:
+#        - TRAVIS_PYTHON_VERSION=3.3
+#        - BUNDLED=1
+#    - os: osx
+#      language: generic
+#      osx_image: xcode7.1
+#      python: 3.3
+#      env:
+#        - TRAVIS_PYTHON_VERSION=3.3
+#        - BUNDLED=1
+#        - SECP_BUNDLED_EXPERIMENTAL=1
+#
+#    - os: osx
+#      language: generic
+#      osx_image: xcode7.1
+#      python: 3.4
+#      env:
+#        - TRAVIS_PYTHON_VERSION=3.4
+#        - BUNDLED=0
+#    - os: osx
+#      language: generic
+#      osx_image: xcode7.1
+#      python: 3.4
+#      env:
+#        - TRAVIS_PYTHON_VERSION=3.4
+#        - BUNDLED=1
+#    - os: osx
+#      language: generic
+#      osx_image: xcode7.1
+#      python: 3.4
+#      env:
+#        - TRAVIS_PYTHON_VERSION=3.4
+#        - BUNDLED=1
+#        - SECP_BUNDLED_EXPERIMENTAL=1
+#
+#    - os: osx
+#      language: generic
+#      osx_image: xcode7.1
+#      python: 3.5
+#      env:
+#        - TRAVIS_PYTHON_VERSION=3.5
+#        - BUNDLED=0
+#    - os: osx
+#      language: generic
+#      osx_image: xcode7.1
+#      python: 3.5
+#      env:
+#        - TRAVIS_PYTHON_VERSION=3.5
+#        - BUNDLED=1
     - os: osx
       language: generic
       osx_image: xcode7.1

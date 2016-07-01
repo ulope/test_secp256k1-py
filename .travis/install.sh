@@ -31,7 +31,8 @@ if [[ $TRAVIS_OS_NAME == "osx" ]]; then
 	# Travis has some funky cd hooks that fuck shit up
 	builtin cd ~/.cache/python-dl
 
-	py_pkg=$PYTHON_PKG_${TRAVIS_PYTHON_VERSION//./}
+	py_pkg=PYTHON_PKG_${TRAVIS_PYTHON_VERSION//./}
+	py_pkg=${py_pkg}
 
 	# The package might have been cached from a previous run
 	if [[ ! -f $(basename ${py_pkg}) ]]; then
