@@ -4,8 +4,7 @@ set -e
 set -x
 
 echo "deploy"
-
-#python -m pip install twine
+python -m pip install twine wheel
 
 #twine register
 

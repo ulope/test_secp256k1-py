@@ -180,6 +180,12 @@ class build_clib(_build_clib):
             "--prefix",
             os.path.abspath(self.build_clib),
         ]
+        if os.environ.get('SECP_BUNDLED_WITH_BIGNUM'):
+            log.info("Building with bignum support (requires libgmp)")
+            cmd.extend(["--with-bignum=gmp"])
+        else:
+            cmd.extend(["--without-bignum"])
+
         if os.environ.get('SECP_BUNDLED_EXPERIMENTAL'):
             log.info("Building experimental")
             cmd.extend([
