@@ -29,7 +29,7 @@ if [[ $TRAVIS_OS_NAME == "osx" ]]; then
 
 	mkdir -p ~/.cache/python-dl
 	# Travis has some funky cd hooks that fuck shit up
-	builtin cd ~/.cache/python-dl
+	builtin pushd ~/.cache/python-dl
 
 	py_pkg=PYTHON_PKG_${TRAVIS_PYTHON_VERSION//./}
 	py_pkg=${!py_pkg}
@@ -41,7 +41,7 @@ if [[ $TRAVIS_OS_NAME == "osx" ]]; then
 
 	sudo installer -pkg $(basename ${py_pkg}) -target /
 
-	builtin cd
+	builtin popd
 
 	case "${TRAVIS_PYTHON_VERSION}" in
 		2.7)
@@ -73,11 +73,11 @@ fi
 # Build lib-secp256k1 to test non bundled installation
 if [[ $BUNDLED -eq 0 ]]; then
 	  git clone git://github.com/bitcoin/secp256k1.git libsecp256k1_ext
-	  pushd libsecp256k1_ext
+	  builtin pushd libsecp256k1_ext
 	  ./autogen.sh
 	  ./configure --enable-module-recovery --enable-experimental --enable-module-ecdh --enable-module-schnorr
 	  make
-	  popd
+	  builtin popd
 fi
 
 set +x
