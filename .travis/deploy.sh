@@ -3,6 +3,8 @@
 set -e
 set -x
 
+git reset --hard
+
 echo "deploy"
 python -m pip install twine wheel
 
