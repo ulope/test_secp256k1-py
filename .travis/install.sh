@@ -58,12 +58,13 @@ if [[ $TRAVIS_OS_NAME == "osx" ]]; then
 			;;
 	esac
 
-	if [[ "${TRAVIS_PYTHON_VERSION}" == "2.7" || "${TRAVIS_PYTHON_VERSION}" == "2.7" ]]; then
+	if [[ "${TRAVIS_PYTHON_VERSION}" == "2.7" || "${TRAVIS_PYTHON_VERSION}" == "3.3" ]]; then
+		builtin pushd ~
 		curl -O ${GET_PIP}
 		${python} get-pip.py
 		${python} -m pip install --user virtualenv
+		builtin popd
 	fi
-
 
   	mkdir ~/virtualenv
   	${python} -m ${virtualenv} ~/virtualenv/python${TRAVIS_PYTHON_VERSION}
