@@ -3,14 +3,14 @@
 set -e
 set -x
 
-git reset --hard
-
 echo "deploy"
 python -m pip install twine wheel
 
+# remove left over files from previous stages
+rm -rf build
+
 #twine register
 
-#
 if [[ "${TRAVIS_PYTHON_VERSION}" == "2.7" ]]; then
 	python setup.py sdist
 	#twine upload
