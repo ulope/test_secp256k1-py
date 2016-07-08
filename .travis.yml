@@ -27,8 +27,8 @@ cache:
     - $HOME/.cache/pip
     - $HOME/.cache/python-dl
 
-# Sigh... Until Travis issue #2312 is fixed Travis' osx image doesn't support
-# Python so we need to manually specify this matrix...
+# Sigh... Until Travis issue #2312 is fixed Travis' osx image doesn't properly
+# support Python so we need to manually specify this matrix...
 matrix:
   include:
     - os: osx
@@ -100,6 +100,7 @@ script:
 
 deploy:
   provider: script
+  skip_cleanup: true
   script: .travis/deploy.sh
   on:
     branch: autodeploy
