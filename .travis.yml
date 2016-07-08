@@ -138,9 +138,7 @@ before_install:
   - python -m pip install -U setuptools cffi pytest coverage coveralls
 
 install:
-  - env
-  - python --version
-  #- python setup.py install
+  - python setup.py install
 
 # This is a bit of a hack:
 # We want to ensure that we test the installed version, not the local source.
@@ -151,6 +149,7 @@ install:
 # into producing correct paths. For that to work we need to re-rename the
 # source back to it's correct name.
 script:
+   - echo "script"
    - env
    - python --version
 #  - mv secp256k1 _secp256k1

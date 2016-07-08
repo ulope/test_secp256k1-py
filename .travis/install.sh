@@ -81,3 +81,4 @@ if [[ $BUNDLED -eq 0 ]]; then
 fi
 
 set +x
+set +e

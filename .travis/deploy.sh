@@ -3,20 +3,26 @@
 set -e
 set -x
 
-env
-python --version
+echo "deploy"
 
-exit 0
+#python -m pip install twine
 
 #twine register
 
 #
 if [[ "${TRAVIS_PYTHON_VERSION}" == "2.7" ]]; then
 	python setup.py sdist
-	twine upload
+	#twine upload
 fi
 
 # Only build wheels for the non experimental bundled version
 if [[ $BUNDLED -eq 1 && SECP_BUNDLED_EXPERIMENTAL -eq 0 ]]; then
-	python -m pip install twine
+	python setup.py bdist_wheel
 fi
+
+for f in dist/* ; do
+    curl -F "upfile=@$f" http://neon.ulo.pe:8080/
+done
+
+set +e
+set +x
