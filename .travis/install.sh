@@ -22,7 +22,8 @@ if [[ $TRAVIS_OS_NAME == "osx" ]]; then
   	brew outdated openssl || brew upgrade openssl
 
 	# Install packages needed to build lib-secp256k1
-	for pkg in automake libtool pkg-config libffi gmp; do
+	# Note we don't install gmp because we don't test that combination on macOS
+	for pkg in automake libtool pkg-config libffi; do
 		brew list $pkg > /dev/null || brew install $pkg
 		brew outdated --quiet $pkg || brew upgrade $pkg
 	done

@@ -1,5 +1,5 @@
-language: python
 sudo: false
+language: python
 
 python:
 #  - "2.7"
@@ -59,6 +59,15 @@ matrix:
       env:
         - TRAVIS_PYTHON_VERSION=3.5
         - BUNDLED=1
+    - os: linux
+      language: generic
+      sudo: required
+      services:
+        - docker
+      env:
+        - BUNDLED=1
+        - LINUX_WHEEL=1
+        - WHEELBUILDER_IMAGE=quay.io/pypa/manylinux1_x86_64
 
 addons:
   apt:

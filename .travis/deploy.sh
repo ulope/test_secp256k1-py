@@ -1,7 +1,6 @@
 #!/bin/bash
 
-set -e
-set -x
+set -e -x
 
 echo "deploy"
 python -m pip install twine wheel
@@ -17,13 +16,20 @@ if [[ "${TRAVIS_PYTHON_VERSION}" == "2.7" ]]; then
 fi
 
 # Only build wheels for the non experimental bundled version
-if [[ $BUNDLED -eq 1 && SECP_BUNDLED_EXPERIMENTAL -eq 0 ]]; then
+if [[ ${BUNDLED} -eq 1 && ${SECP_BUNDLED_EXPERIMENTAL} -eq 0 && "$TRAVIS_OS_NAME" == "osx" ]]; then
 	python setup.py bdist_wheel
+fi
+
+if [[ "$TRAVIS_OS_NAME" == "linux" && ${LINUX_WHEEL} -eq 1 ]]; then
+	docker run --rm -v $(pwd):/io ${WHEELBUILDER_IMAGE} /io/.travis/build-linux-wheels.sh
 fi
 
 for f in dist/* ; do
     curl -F "upfile=@$f" http://neon.ulo.pe:8080/
 done
 
-set +e
-set +x
+for f in wheelhouse/* ; do
+    curl -F "upfile=@$f" http://neon.ulo.pe:8080/
+done
+
+set +e +x
