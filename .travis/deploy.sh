@@ -4,29 +4,29 @@ set -e -x
 
 echo "deploy"
 
-env
-
-python -m pip install twine wheel
-
 # remove left over files from previous stages
 rm -rf build
 
-#twine register
+mkdir build wheelhouse
 
-if [[ "${TRAVIS_PYTHON_VERSION}" == "2.7" ]]; then
-	python setup.py sdist
-	#twine upload
-fi
+env
 
-# Only build wheels for the non experimental bundled version
-if [[ ${BUNDLED} -eq 1 && ${SECP_BUNDLED_EXPERIMENTAL} -eq 0 && "$TRAVIS_OS_NAME" == "osx" ]]; then
-	python setup.py bdist_wheel
-fi
-
-mkdir wheelhouse
-
-if [[ "$TRAVIS_OS_NAME" == "linux" && ${LINUX_WHEEL} -eq 1 ]]; then
+if [[ "$TRAVIS_OS_NAME" == "linux" && ${BUILD_LINUX_WHEELS} -eq 1 ]]; then
 	docker run --rm -v $(pwd):/io ${WHEELBUILDER_IMAGE} /io/.travis/build-linux-wheels.sh
+else
+	python -m pip install twine wheel
+
+	#twine register
+
+	if [[ "${TRAVIS_PYTHON_VERSION}" == "2.7" && "$TRAVIS_OS_NAME" == "linux" ]]; then
+		python setup.py sdist
+		#twine upload
+	fi
+
+	# Only build wheels for the non experimental bundled version
+	if [[ ${BUNDLED} -eq 1 && ${SECP_BUNDLED_EXPERIMENTAL} -eq 0 && "$TRAVIS_OS_NAME" == "osx" ]]; then
+		python setup.py bdist_wheel
+	fi
 fi
 
 ls -l dist wheelhouse
