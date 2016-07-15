@@ -15,6 +15,7 @@ env:
     - INCLUDE_DIR=./libsecp256k1_ext/include
     - PYPI_USERNAME=test_secp_deploy
     - secure: "BA018G6688huuq24WfjQ9qBuf38YvXMcWm77zi6tca11gzrxq+5N4CHw0bWDLuOKBvLpXzTATn4PizAgHy2kwoO5q77psNf0btV8Y4t8hvsAsiENt7QyBnUD7gmx1bJtXhd9xjCA3dvBVTfhl64Kb7D8ZavZwHx/Vlj7Qv1CJrHdt3u0t7qjounEjHSOkF7FIwFxeYjxhAMdFnaNcPinvNcqx0TdavmFpZCuQ4xAbq0aiL3RV04GnXZzRIzyARciXr8uSPXP3iTba2LFNSdnoCw7hz06AgvVU0juR4nS/zeX5Zfy6UmGpf49SdoziFhZ06Wktwd6GoyPBYL5Z53vOxnSqNxpwKNeqa1H57Vlt3I4Gk5jjnFZtZxFKVNFwQObOFzhJ4zUJ9RfSgf3mXKaUvSPrEHnrc9CP0D6pQSoDPom8BGZFJMgG4rVISBOKlB+JXh4IUTghZfxKJxO6kSLaRG6Z+vEu10MhQogrc/8lbwtEUsEaQqQuZIupLfUIhxIHCeSRf1Qz/khSZtzn9mmBOsVYkYF4OzQO1Y1GwlUSgfvluI+SgQyo6DhZWprIO6xOH0rmQU6wdG6eaueoFxnkl6LFt5ayD7GXGNBTNc2tKaWd7cYHHPYtcmb7QG2TfWSCwy8VQGYkce5wrbR9IuZR2ONKB4LMRtrFVo2i/+GKuQ="
+    - WHEELBUILDER_IMAGE=quay.io/pypa/manylinux1_x86_64
   matrix:
 #    - BUNDLED=0
     - BUNDLED=1
@@ -66,8 +67,7 @@ matrix:
         - docker
       env:
         - BUNDLED=1
-        - LINUX_WHEEL=1
-        - WHEELBUILDER_IMAGE=quay.io/pypa/manylinux1_x86_64
+        - BUILD_LINUX_WHEELS=1
 
 addons:
   apt:
@@ -82,10 +82,9 @@ addons:
 
 before_install:
   - source .travis/install.sh
-  - python -m pip install -U setuptools cffi pytest coverage coveralls
 
 install:
-  - python setup.py install
+  - [[ -z "BUILD_LINUX_WHEELS" ]] && python setup.py install
 
 # This is a bit of a hack:
 # We want to ensure that we test the installed version, not the local source.

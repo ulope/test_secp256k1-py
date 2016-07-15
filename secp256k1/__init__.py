@@ -608,8 +608,12 @@ def _parse_cli():
     return parser, enc
 
 
-if __name__ == '__main__':
+def __main__():
     import sys
     parser, enc = _parse_cli()
     args = parser.parse_args(sys.argv[1:])
     sys.exit(_main_cli(args, sys.stdout, enc))
+
+
+if __name__ == '__main__':
+    __main__()
