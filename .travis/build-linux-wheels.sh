@@ -3,7 +3,7 @@
 set -e -x
 
 # Install a system package required by our library
-yum install -y automake pkg-config libffi libffi-devel gmp gpm-devel libtool
+yum install -y automake autoconf pkg-config libffi libffi-devel libtool
 
 # Compile wheels
 for PYBIN in /opt/python/*/bin; do

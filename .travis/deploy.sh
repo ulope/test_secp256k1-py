@@ -42,7 +42,7 @@ EOF
 
 python -m pip install twine
 
-twine register --repository pypitest
+twine register --repository pypitest secp256k1
 
 # Ignore globs for non existing files
 shopt -s nullglob
