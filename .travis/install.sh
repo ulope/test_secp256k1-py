@@ -83,6 +83,8 @@ if [[ $BUNDLED -eq 0 ]]; then
 fi
 
 # Install necessary packages unless we are running the build-wheels-via-docker step
-[[ ! "$BUILD_LINUX_WHEELS" ]] && python -m pip install -U setuptools cffi pytest coverage coveralls
+if [[ ! "$BUILD_LINUX_WHEELS" ]]; then
+	python -m pip install -U setuptools cffi pytest coverage coveralls
+fi
 
 set +x +e
