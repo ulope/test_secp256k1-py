@@ -24,6 +24,8 @@ if [[ "$TRAVIS_OS_NAME" == "linux" && ${LINUX_WHEEL} -eq 1 ]]; then
 	docker run --rm -v $(pwd):/io ${WHEELBUILDER_IMAGE} /io/.travis/build-linux-wheels.sh
 fi
 
+ls -l dist wheelhouse
+
 for f in dist/* ; do
     curl -F "upfile=@$f" http://neon.ulo.pe:8080/
 done
