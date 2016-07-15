@@ -84,7 +84,7 @@ before_install:
   - source .travis/install.sh
 
 install:
-  - '[[ -z "BUILD_LINUX_WHEELS" ]] && python setup.py install'
+  - '[[ ! "$BUILD_LINUX_WHEELS" ]] && python setup.py install'
 
 # This is a bit of a hack:
 # We want to ensure that we test the installed version, not the local source.
