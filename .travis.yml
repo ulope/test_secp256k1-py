@@ -32,13 +32,13 @@ cache:
 # support Python so we need to manually specify this matrix...
 matrix:
   include:
-    - os: osx
-      language: generic
-      osx_image: xcode7.1
-      python: 2.7
-      env:
-        - TRAVIS_PYTHON_VERSION=2.7
-        - BUNDLED=1
+#    - os: osx
+#      language: generic
+#      osx_image: xcode7.1
+#      python: 2.7
+#      env:
+#        - TRAVIS_PYTHON_VERSION=2.7
+#        - BUNDLED=1
 #    - os: osx
 #      language: generic
 #      osx_image: xcode7.1
@@ -53,13 +53,13 @@ matrix:
 #      env:
 #        - TRAVIS_PYTHON_VERSION=3.4
 #        - BUNDLED=1
-    - os: osx
-      language: generic
-      osx_image: xcode7.1
-      python: 3.5
-      env:
-        - TRAVIS_PYTHON_VERSION=3.5
-        - BUNDLED=1
+#    - os: osx
+#      language: generic
+#      osx_image: xcode7.1
+#      python: 3.5
+#      env:
+#        - TRAVIS_PYTHON_VERSION=3.5
+#        - BUNDLED=1
     - os: linux
       language: generic
       sudo: required

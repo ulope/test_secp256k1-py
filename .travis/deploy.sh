@@ -3,6 +3,9 @@
 set -e -x
 
 echo "deploy"
+
+env
+
 python -m pip install twine wheel
 
 # remove left over files from previous stages
@@ -19,6 +22,8 @@ fi
 if [[ ${BUNDLED} -eq 1 && ${SECP_BUNDLED_EXPERIMENTAL} -eq 0 && "$TRAVIS_OS_NAME" == "osx" ]]; then
 	python setup.py bdist_wheel
 fi
+
+mkdir wheelhouse
 
 if [[ "$TRAVIS_OS_NAME" == "linux" && ${LINUX_WHEEL} -eq 1 ]]; then
 	docker run --rm -v $(pwd):/io ${WHEELBUILDER_IMAGE} /io/.travis/build-linux-wheels.sh
