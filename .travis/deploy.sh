@@ -11,16 +11,14 @@ mkdir build wheelhouse
 
 env
 
+# On linux we want to build `manylinux1` wheels. See:
 if [[ "$TRAVIS_OS_NAME" == "linux" && ${BUILD_LINUX_WHEELS} -eq 1 ]]; then
 	docker run --rm -v $(pwd):/io ${WHEELBUILDER_IMAGE} /io/.travis/build-linux-wheels.sh
 else
-	python -m pip install twine wheel
-
-	#twine register
+	python -m pip install wheel
 
 	if [[ "${TRAVIS_PYTHON_VERSION}" == "2.7" && "$TRAVIS_OS_NAME" == "linux" ]]; then
 		python setup.py sdist
-		#twine upload
 	fi
 
 	# Only build wheels for the non experimental bundled version
@@ -29,14 +27,26 @@ else
 	fi
 fi
 
-ls -l dist wheelhouse
+ls -l dist
 
-for f in dist/* ; do
-    curl -F "upfile=@$f" http://neon.ulo.pe:8080/
-done
+cat <<EOF > ~/.pypirc
+[distutils]
+index-servers =
+	pypitest
 
-for f in wheelhouse/* ; do
-    curl -F "upfile=@$f" http://neon.ulo.pe:8080/
-done
+[pypitest]
+repository = https://testpypi.python.org/pypi
+username = ${PYPI_USERNAME}
+password = ${PYPI_PASSWORD}
+EOF
+
+python -m pip install twine
+
+twine register --repository pypitest
+
+# Ignore globs for non existing files
+shopt -s nullglob
+
+twine upload --repository pypitest --skip-existing dist/secp256k1*.{whl,gz}
 
 set +e +x
