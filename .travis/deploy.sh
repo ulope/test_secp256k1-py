@@ -5,8 +5,8 @@ set -e -x
 echo "deploy"
 
 # remove left over files from previous stages
-rm -rf build
-mkdir build
+rm -rf build dist
+mkdir dist
 
 
 # On linux we want to build `manylinux1` wheels. See:
