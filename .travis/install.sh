@@ -47,7 +47,7 @@ if [[ $TRAVIS_OS_NAME == "osx" ]]; then
 		hdiutil attach -mountpoint /Volumes/Python python-3.3*.dmg
 		installer_pkg=/Volumes/Python/Python.mpkg
 	fi
-	sudo installer -pkg $(installer_pkg) -target /
+	sudo installer -pkg ${installer_pkg} -target /
 
 	builtin popd
 
