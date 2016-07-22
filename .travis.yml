@@ -60,6 +60,7 @@ matrix:
 #      env:
 #        - TRAVIS_PYTHON_VERSION=3.5
 #        - BUNDLED=1
+    # Build `manylinux1` wheels
     - os: linux
       language: python
       python: 3.5
@@ -96,16 +97,13 @@ install:
 # into producing correct paths. For that to work we need to re-rename the
 # source back to it's correct name.
 script:
-   - echo "script"
-   - env
-   - python --version
-#  - mv secp256k1 _secp256k1
-#  - coverage run --parallel --include="*/site-packages/*.egg/secp256k1/*" -m py.test
-#  - mv _secp256k1 secp256k1
-#  - coverage combine
+  - mv secp256k1 _secp256k1
+  - coverage run --parallel --include="*/site-packages/*.egg/secp256k1/*" -m py.test
+  - mv _secp256k1 secp256k1
+  - coverage combine
 
-#after_success:
-#  - coveralls
+after_success:
+  - coveralls
 
 deploy:
   provider: script
