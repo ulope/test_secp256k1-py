@@ -61,7 +61,8 @@ matrix:
 #        - TRAVIS_PYTHON_VERSION=3.5
 #        - BUNDLED=1
     - os: linux
-      language: generic
+      language: python
+      python: 3.5
       sudo: required
       services:
         - docker
