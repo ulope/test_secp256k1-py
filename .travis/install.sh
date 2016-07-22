@@ -31,6 +31,7 @@ if [[ $TRAVIS_OS_NAME == "osx" ]]; then
 	mkdir -p ~/.cache/python-dl
 	# Travis has some funky cd hooks that fuck shit up
 	builtin pushd ~/.cache/python-dl
+	ls -l
 
 	py_pkg=PYTHON_PKG_${TRAVIS_PYTHON_VERSION//./}
 	py_pkg=${!py_pkg}

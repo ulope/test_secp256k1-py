@@ -15,8 +15,11 @@ from setuptools import Distribution as _Distribution, setup, find_packages, __ve
 from setuptools.command.develop import develop as _develop
 from setuptools.command.egg_info import egg_info as _egg_info
 from setuptools.command.sdist import sdist as _sdist
-from wheel.bdist_wheel import bdist_wheel as _bdist_wheel
-
+try:
+    from wheel.bdist_wheel import bdist_wheel as _bdist_wheel
+except ImportError:
+    _bdist_wheel = None
+    pass
 
 try:
     from urllib2 import urlopen, URLError
@@ -98,6 +101,8 @@ if _bdist_wheel:
         def run(self):
             download_library(self)
             _bdist_wheel.run(self)
+else:
+    bdist_wheel = None
 
 
 class Distribution(_Distribution):
@@ -274,7 +279,7 @@ setup(
         'develop': develop,
         'egg_info': egg_info,
         'sdist': sdist,
-        'bdist_wheel': bdist_wheel if _bdist_wheel else None
+        'bdist_wheel': bdist_wheel
     },
     distclass=Distribution,
     zip_safe=False,
