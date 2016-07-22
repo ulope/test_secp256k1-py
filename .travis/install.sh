@@ -40,9 +40,14 @@ if [[ $TRAVIS_OS_NAME == "osx" ]]; then
 	if [[ ! -f $(basename ${py_pkg}) ]]; then
 		curl -LO ${py_pkg}
 	fi
-	ls -l
 
-	sudo installer -pkg $(basename ${py_pkg}) -target /
+	installer_pkg=$(basename ${py_pkg})
+	if [[ "${TRAVIS_PYTHON_VERSION}" == "3.3" ]]; then
+		# Python 3.3. is distributed as a .dmg...
+		hdiutil attach -mountpoint /Volumes/Python python-3.3*.dmg
+		installer_pkg=/Volumes/Python/Python.mpkg
+	fi
+	sudo installer -pkg $(installer_pkg) -target /
 
 	builtin popd
 
