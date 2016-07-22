@@ -82,9 +82,7 @@ if [[ $BUNDLED -eq 0 ]]; then
 	  builtin popd
 fi
 
-# Install necessary packages unless we are running the build-wheels-via-docker step
-if [[ ! "$BUILD_LINUX_WHEELS" ]]; then
-	python -m pip install -U setuptools cffi pytest coverage coveralls
-fi
+# Install necessary packages
+python -m pip install -U setuptools cffi pytest coverage coveralls
 
 set +x +e
