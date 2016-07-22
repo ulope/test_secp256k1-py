@@ -10,7 +10,6 @@ if [[ $TRAVIS_OS_NAME == "osx" ]]; then
 	# We use the official python.org installers to make sure our wheels are
 	# going to be as widely compatible as possible
 	PYTHON_PKG_27="https://www.python.org/ftp/python/2.7.12/python-2.7.12-macosx10.6.pkg"
-	PYTHON_PKG_33="https://www.python.org/ftp/python/3.3.5/python-3.3.5-macosx10.6.dmg"
 	PYTHON_PKG_34="https://www.python.org/ftp/python/3.4.4/python-3.4.4-macosx10.6.pkg"
 	PYTHON_PKG_35="https://www.python.org/ftp/python/3.5.2/python-3.5.2-macosx10.6.pkg"
 	GET_PIP="https://bootstrap.pypa.io/get-pip.py"
@@ -36,17 +35,13 @@ if [[ $TRAVIS_OS_NAME == "osx" ]]; then
 	py_pkg=PYTHON_PKG_${TRAVIS_PYTHON_VERSION//./}
 	py_pkg=${!py_pkg}
 
+	installer_pkg=$(basename ${py_pkg})
+
 	# The package might have been cached from a previous run
-	if [[ ! -f $(basename ${py_pkg}) ]]; then
+	if [[ ! -f ${installer_pkg} ]]; then
 		curl -LO ${py_pkg}
 	fi
 
-	installer_pkg=$(basename ${py_pkg})
-	if [[ "${TRAVIS_PYTHON_VERSION}" == "3.3" ]]; then
-		# Python 3.3. is distributed as a .dmg...
-		hdiutil attach -mountpoint /Volumes/Python python-3.3*.dmg
-		installer_pkg=/Volumes/Python/Python.mpkg
-	fi
 	sudo installer -pkg ${installer_pkg} -target /
 
 	builtin popd
