@@ -38,7 +38,7 @@ if [[ $TRAVIS_OS_NAME == "osx" ]]; then
 
 	# The package might have been cached from a previous run
 	if [[ ! -f $(basename ${py_pkg}) ]]; then
-		curl -O ${py_pkg}
+		curl -LO ${py_pkg}
 	fi
 	ls -l
 
